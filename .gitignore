@@ -1,0 +1,5 @@
+data/
+.vscode/
+__*/
+checkpoint*
+runs/
