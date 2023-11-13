@@ -75,8 +75,8 @@ class SSLNoCropDataset(torch.utils.data.Dataset):
 
     def get_row(self, index):
         return dict(image_path=self.positive_paths[index], 
-                    negative_path=self.negative_paths[index], 
-                    mask_path=self.mask_paths[index])
+                    negative_path=self.negative_paths[index] if self.enable_negatives else None, 
+                    mask_path=self.mask_paths[index] if self.mask_paths else None)
 
     def get_mask(self, index):
         mask_np = self.read_mask(self.mask_paths[index])

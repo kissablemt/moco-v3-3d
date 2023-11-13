@@ -100,7 +100,8 @@ class MoCo(nn.Module):
             # compute momentum features as targets
             k1 = self.momentum_encoder(x1)
             k2 = self.momentum_encoder(x2)
-
+        # print("running_mean: ", self.base_encoder.patch_embed.proj[1].running_mean.mean())
+        # print("running_var: ", self.base_encoder.patch_embed.proj[1].running_var.mean())
         return self.contrastive_loss(q1, k2) + self.contrastive_loss(q2, k1)
 
 
