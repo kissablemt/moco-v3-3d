@@ -4,3 +4,4 @@ __*/
 checkpoint*
 runs/
 notebooks/
+*.pth.tar

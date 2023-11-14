@@ -15,7 +15,7 @@ from functools import partial, reduce
 from operator import mul
 
 from timm.models.vision_transformer import VisionTransformer, _cfg
-from timm.models.layers.helpers import to_3tuple
+from timm.models.layers import to_3tuple
 from timm.models.layers import PatchEmbed
 
 __all__ = [
@@ -69,7 +69,7 @@ class VisionTransformerMoCo3D(VisionTransformer):
         out_d = torch.einsum('m,d->md', [grid_d.flatten(), omega])
         pos_emb = torch.cat([torch.sin(out_w), torch.cos(out_w), torch.sin(out_h), torch.cos(out_h), torch.sin(out_d), torch.cos(out_d)], dim=1)[None, :, :]
 
-        assert self.num_tokens == 1, 'Assuming one and only one token, [cls]'
+        assert self.num_prefix_tokens == 1, 'Assuming one and only one token, [cls]'
         pe_token = torch.zeros([1, 1, self.embed_dim], dtype=torch.float32)
         self.pos_embed = nn.Parameter(torch.cat([pe_token, pos_emb], dim=1))
         self.pos_embed.requires_grad = False
@@ -79,7 +79,7 @@ class ConvStem3D(nn.Module):
     """ 
     ConvStem, from Early Convolutions Help Transformers See Better, Tete et al. https://arxiv.org/abs/2106.14881
     """
-    def __init__(self, img_size=224, patch_size=16, in_chans=3, embed_dim=768, norm_layer=None, flatten=True):
+    def __init__(self, img_size=224, patch_size=16, in_chans=3, embed_dim=768, norm_layer=None, flatten=True, **kwargs):
         super().__init__()
 
         # assert patch_size == 16, 'ConvStem only supports patch size of 16'
