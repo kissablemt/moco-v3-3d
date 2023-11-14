@@ -5,3 +5,5 @@ checkpoint*
 runs/
 notebooks/
 *.pth.tar
+args.json
+nohup.out
